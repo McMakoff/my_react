@@ -29,7 +29,7 @@ const optimization = () => {
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
-  entry: './main.js',
+  entry: './main.tsx',
   output: {
     filename: `./${fileName('js')}`,
     path: path.resolve(__dirname, 'app'),
@@ -41,7 +41,7 @@ module.exports = {
     }
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json', 'scss']
+    extensions: ['.js', '.jsx', '.tsx', '.ts', '.json', '.scss']
   },
   devServer: {
     historyApiFallback: true,
@@ -93,6 +93,11 @@ module.exports = {
         ]
       },
       {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
         test: /\.m.scss$/i,
         use: [
           MiniCssExtractPlugin.loader,
@@ -121,8 +126,13 @@ module.exports = {
       },
       {
         test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
         use: ['babel-loader'],
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(js|jsx)$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
       {
         test: /\.(?:|gif|png|jpg|jpeg|svg)$/,
